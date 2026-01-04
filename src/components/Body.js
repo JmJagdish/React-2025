@@ -2,6 +2,7 @@ import RestaurantCard from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import ShimmerCard from "./ShimmerCard";
 import useRestaurant from "../utils/useRestaurant";
+import Button from "../ui/Button";
 
 const Body = () => {
   const listOfRestaurants = useRestaurant();
@@ -27,37 +28,31 @@ const Body = () => {
   };
 
   return listOfRestaurants.length === 0 ? (
-    <div className="shimmer-container">
-      {Array(10)
-        .fill(0)
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-6 mx-auto container">
+      {Array(8)
+        .fill("")
         .map((_, index) => (
           <ShimmerCard key={index} />
         ))}
     </div>
   ) : (
-    <div className="body">
-      <div className="filter">
-        <div className="search-container">
+    <div className="m-6">
+      <div className="flex gap-4">
+        <div className="flex gap-2">
           <input
-            className="search-input"
+            className="p-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-0"
             type="text"
-            placeholder="Search Here"
+            placeholder="Search Restaurant"
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
           />
-          <button className="search-btn" onClick={handleSearch}>
-            Search
-          </button>
+          <Button label="Search" onClick={handleSearch} />
         </div>
-        <div>
-          <button className="filter-btn" onClick={handleRatingFilter}>
-            Rating: 4.3+
-          </button>
-        </div>
+        <Button label="Rating: 4.3+" onClick={handleRatingFilter} />
       </div>
-      <div className="res-container">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-6 mx-auto container">
         {filteredRestaurant.map((restaurant) => (
           <RestaurantCard key={restaurant.info.id} resData={restaurant} />
         ))}
