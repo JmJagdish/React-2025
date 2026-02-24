@@ -1,28 +1,22 @@
 import { useEffect, useState } from "react";
-import { RES_API } from "../utils/constant";
-import resList from "../utils/mockData";
+import { getRestaurants } from "../services/restaurantService";
 
 const useRestaurant = () => {
-  const [restaurants, setRestaurants] = useState(resList);
+  const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    fetchRestaurants();
   }, []);
 
-  const fetchData = async () => {
+  const fetchRestaurants = async () => {
     try {
-      const response = await fetch(RES_API);
-      const json = await response.json();
-
-      const apiData =
-        json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants;
-
-      setRestaurants(apiData);
+      const data = await getRestaurants();
+      setRestaurants(data ?? []);
     } catch (error) {
-      console.warn("Using mock data due to API error");
+      setRestaurants([]);
     }
   };
+
   return restaurants;
 };
 

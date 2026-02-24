@@ -11,3 +11,5 @@ export const RES_MENU_API =
   "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=28.5932433&lng=77.3087328&restaurantId=223412&catalog_qa=undefined&submitAction=ENTER";
 
 export const USER_API = "https://api.github.com/users/jmjagdish";
+
+export const RES_API_DATA = "http://localhost:5000/api/restaurants";

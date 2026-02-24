@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import { FiMoon, FiSun, FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
 import { GoDotFill } from "react-icons/go";
@@ -7,6 +7,7 @@ import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
 import Button from "../ui/Button";
 import CompanyLogo from "../ui/CompanyLogo";
+import { getUserProfile } from "../api/userApi";
 
 const Header = () => {
   const [btn, setBtn] = useState("Sign in");
@@ -16,6 +17,7 @@ const Header = () => {
   const onlineStatus = useOnlineStatus();
   const { loggedInUser } = useContext(UserContext);
   const cartItems = useSelector((store) => store.cart.items);
+  const [username, setUsername] = useState();
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -23,6 +25,19 @@ const Header = () => {
     { name: "Contact Us", path: "/contact" },
     { name: "Grocery", path: "/grocery" },
   ];
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+    const fetchUser = async () => {
+        try {
+          const data = await getUserProfile(1);
+          setUsername(data.username);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
 
   return (
     <header className="max-w-full sticky top-0 z-50 bg-linear-to-br from-teal-600 via-teal-700 to-teal-900 shadow-md">
@@ -110,7 +125,9 @@ const Header = () => {
           >
             {isDark ? <FiMoon size={20} /> : <FiSun size={20} />}
           </div>
-
+          <div>
+            <p className="font-bold text-white">{username}</p>
+          </div>
           <Button
             variant="glass"
             label={btn}
@@ -165,6 +182,9 @@ const Header = () => {
           >
             {isDark ? <FiMoon /> : <FiSun />}
             Theme
+          </div>
+          <div>
+            <p className="font-bold text-white">{username}</p>
           </div>
           <Button
             variant="glass"

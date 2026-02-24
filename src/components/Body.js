@@ -30,7 +30,7 @@ const Body = () => {
     setFilteredRestaurant(filtered);
   };
 
-  return listOfRestaurants.length === 0 ? (
+  return !listOfRestaurants?.length ? (
     <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-6 mx-auto container">
       {Array(8)
         .fill("")
